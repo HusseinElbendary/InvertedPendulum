@@ -1,5 +1,5 @@
 
-[[InvertedPendulum/system diagram.png]]
+[[/system_diagram.png]]
 physical pendulum mounted on a moving cart 
 
 step 1: modeling the system
