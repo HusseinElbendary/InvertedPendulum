@@ -89,7 +89,7 @@ The input matrix $B$ is the parital derivatives of state vector W.R.T to input $
 $$B=\begin{bmatrix}{\dfrac {\partial f_{1}}{\partial u}}\\{\dfrac {\partial f_{2}}{\partial u}}\\{\dfrac {\partial f_{3}}{\partial u}}\\{\dfrac {\partial f_{4}}{\partial u}} \end{bmatrix}=\begin{bmatrix}{0}\\{\frac{I_p+0.25m_p*l^2}{\gamma}}\\ {0}\\ {\frac{0.5m_p*l}{\gamma}} \end{bmatrix}$$
 
 The output matrix $C$  is just $x_1$ and $x_3$
-$$C=\begin{bmatrix} {1}& {0} &{0} &{0} \\ {0}&{0}&{1}&{0} \end{bmatrix}$$
+$$C=\begin{bmatrix} {1}& {0} &{0} &{0} \newline {0}&{0}&{1}&{0} \end{bmatrix}$$
 
 
 The linear state state model is
