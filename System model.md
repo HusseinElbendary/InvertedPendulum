@@ -82,7 +82,7 @@ To linearize the system, we need to find the the jacobian of the state vector $\
 The jacobian is defined as 
 $$ J_\dot x(x_e)={\begin{bmatrix}{\dfrac {\partial f_{1}}{\partial x_{1}}}&{\dfrac {\partial f_{1}}{\partial x_{2}}}&{\dfrac {\partial f_{1}}{\partial x_{3}}}&{\dfrac {\partial f_{1}}{\partial x_{4}}}\newline{\dfrac {\partial f_{2}}{\partial x_{1}}}&{\dfrac {\partial f_{2}}{\partial x_{2}}}&{\dfrac {\partial f_{2}}{\partial x_{3}}}&{\dfrac {\partial f_{2}}{\partial x_{4}}} \newline{\dfrac {\partial f_{3}}{\partial x_{1}}}&{\dfrac {\partial f_{3}}{\partial x_{2}}}&{\dfrac {\partial f_{3}}{\partial x_{3}}}&{\dfrac {\partial f_{3}}{\partial x_{4}}}\newline {\dfrac {\partial f_{4}}{\partial x_{1}}}&{\dfrac {\partial f_{4}}{\partial x_{2}}}&{\dfrac {\partial f_{4}}{\partial x_{3}}}&{\dfrac {\partial f_{4}}{\partial x_{4}}}\end{bmatrix}}$$
 evaluating at equalibrum point gives us the state transistion matrix:
-$$A=J_\dot x={\begin{bmatrix}{0}&{1}&{0}&{0}\\{0}&{-\frac{(I_p+0.25m_pl^2)b_c}{\gamma}}&{\frac{0.25m_p^2l^2g}{\gamma}}&{-\frac{0.5m_plb_p}{\gamma}}\\{0}&{0}&{0}&{1}\\{0}&{-\frac{0.5m_plb_c}{\gamma}}&{\frac{0.5(m_c+m_p)m_plg}{\gamma}}&{-\frac{b_p(m_c+m_p)}{\gamma}}\end{bmatrix}}$$
+$$A=J_\dot x={\begin{bmatrix}{0}&{1}&{0}&{0}\newline{0}&{-\frac{(I_p+0.25m_pl^2)b_c}{\gamma}}&{\frac{0.25m_p^2l^2g}{\gamma}}&{-\frac{0.5m_plb_p}{\gamma}}\newline{0}&{0}&{0}&{1}\newline{0}&{-\frac{0.5m_plb_c}{\gamma}}&{\frac{0.5(m_c+m_p)m_plg}{\gamma}}&{-\frac{b_p(m_c+m_p)}{\gamma}}\end{bmatrix}}$$
 where $$\gamma = I_p(m_c+m_p)+0.25m_cm_pl^2$$
 The input matrix $B$ is the parital derivatives of state vector W.R.T to input $u$ 
 
