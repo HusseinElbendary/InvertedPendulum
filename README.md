@@ -1,5 +1,5 @@
 
-[[/system_diagram.png]]
+[[/system diagram.png]]
 physical pendulum mounted on a moving cart 
 
 step 1: modeling the system
