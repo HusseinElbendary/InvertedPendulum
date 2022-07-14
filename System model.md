@@ -101,7 +101,6 @@ designing controller using LQR with full state feedback
 
 
 
-using [[Motor model]]
 refrences:
 - [JIBSAO (philarchive.org)](https://philarchive.org/archive/JIBSAO) 
 - [homework and exercises - Lagrangian of an inverted pendulum on a moving cart - Physics Stack Exchange](https://physics.stackexchange.com/questions/550033/lagrangian-of-an-inverted-pendulum-on-a-moving-cart) (kinetic energy of physical pendulum)
