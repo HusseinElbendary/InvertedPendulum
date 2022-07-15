@@ -1,8 +1,14 @@
+Abstract:
 
-[[/systemDiagram.png]]
-physical pendulum mounted on a moving cart 
+This is a simulation project of a physical pendulum mounted on a moving cart,while only using 2 sensors:
 
-step 1: modeling the system
+-pendulum angle
+
+-cart position
+
+The control and simulation is done using matlab and simulink 
+
+Step 1: modeling the system
 to model this the pendulum on cart , its better to use  [[lagrange equation]] 
 first we get the potintial energy of the system which is just the hight of the CoG (center of gravity) of the pendulum
 $$V=\frac{1}{2}m_pglcos(\theta)$$
@@ -52,17 +58,18 @@ $$(I_p+\frac{m_pl^2}{4})\ddot\theta+b_p\dot\theta-\frac{1}{2}m_pl[\ddot x cos(\t
 
 **State Space and Linearziation**
 
-let $$ x= \begin{pmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{pmatrix} = \begin{pmatrix} x \\ \dot x \\ \theta \\ \dot \theta \end{pmatrix} $$
+let $$x= \begin{pmatrix} x_1 \newline x_2 \newline x_3 \newline x_4 \end{pmatrix} = \begin{pmatrix} x \newline \dot x \newline \theta \newline \dot \theta \end{pmatrix}$$
 be the state vector of the system. hence 
 
-$$ \dot x= \begin{pmatrix} \dot x_1 \\ \dot x_2 \\ \dot x_3 \\ \dot x_4 \end{pmatrix} = \begin{pmatrix} \dot x \\ \ddot x \\ \dot \theta \\ \ddot \theta \end{pmatrix} $$
+$$\dot x= \begin{pmatrix} \dot x_1 \newline \dot x_2 \newline \dot x_3 \newline \dot x_4 \end{pmatrix} = \begin{pmatrix} \dot x \newline \ddot x \newline \dot \theta \newline \ddot \theta \end{pmatrix} $$
 
 It's clear that 
-$$ \dot x_1 = x_2 \dots f_1 $$$$ \dot x_3=x_4 \dots f_3$$
+$$\dot x_1 = x_2 \dots f_1$$ and $$\dot x_3 = x_4 \dots f_3$$
 
 now we need to calculate $\dot x_2$ and $\dot x_4$, but first lets rewrite the system model using the state variables 
 
-$$ (m_c+m_p)\dot x_2- \frac{1}{2}m_pl[cos(x_3)\dot x_4 -sin(x_3)x_4^2] =u(t)-b_c x_2 \dots(1)$$
+$$(m_c+m_p)\dot x_2- \frac{1}{2}m_pl[cos(x_3)\dot x_4 -sin(x_3)x_4^2] =u(t)-b_c x_2 \dots(1)$$
+
 $$(I_p+\frac{m_pl^2}{4})\dot x_4+b_p x_4-\frac{1}{2}m_pl[ cos(x_3) \dot x_2+g sin(x_3)] =0 \dots(2)$$
 
 rearranging terms
@@ -98,7 +105,9 @@ $$\dot x=Ax+Bu$$
 $$y=Cx$$
 
 
-designing controller using LQR with full state feedback
+Step 2: Designing controller using LQR with full state feedback
+
+
 
 
 
