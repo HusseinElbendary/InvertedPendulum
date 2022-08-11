@@ -1,5 +1,5 @@
 clc;clear;
-
+close all;
 AnimationEnable=0;
 SaveAnimation=1;
 %system parameters
