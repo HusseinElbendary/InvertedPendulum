@@ -1,46 +1,41 @@
-Abstract:
+## Abstract
 
-This is a simulation project of a physical pendulum mounted on a moving cart,while only using 2 sensors:
+This is a simulation project of a physical pendulum mounted on a moving cart. The cart is moving using belt drive that is connected to gearbox and DC motor.
+The input of the system is motor voltage ranging from +18v to -18v scaled to +1 to -1. Cart position is in meters and pendulum angle is in radians.
+The control and simulation is done using matlab and simulink. 
 
--pendulum angle
-
--cart position
-
-The control and simulation is done using matlab and simulink 
-
-Step 1: modeling the system
-to model this the pendulum on cart , its better to use  [[lagrange equation]] 
-first we get the potintial energy of the system which is just the hight of the CoG (center of gravity) of the pendulum
+## System Model
+To model this the pendulum on cart, its better to use lagrange equation.
+First we obtain the equation of potintial energy of the system which is just the hight of the CoG (center of gravity) of the pendulum
 $$V=\frac{1}{2}m_pglcos(\theta)$$
-second, we get the kinetic energy which consist of three parts
+second, we obtain the kinetic energy which consist of three parts
 $$T=T_{Cart} + T_{Pendulum\,linear} + T_{Pendulum\,Rotational}$$
-the rotational kinetic energy is there since its physical pendulum with inertia.
 
-kinetic energy of the cart is just the energy from the linear velocity
+Kinetic energy of the cart is just the energy from the linear velocity
 $$T_{Cart} = \frac{1}{2}m_cv_c^2 = \frac{1}{2}m_c\dot x^2$$
-kinetic energy of the linear motion of the  pendulum is the linear velocity of the CoG which is vector sum of rotational speed of the pendulum and the linear speed of the cart
+kinetic energy of the linear motion of the pendulum is the linear velocity of the CoG which is vector sum of rotational speed of the pendulum and the linear speed of the cart
 $$T_{Pendulum\,linear} = \frac{1}{2}mv_p^2$$
 $$v_p^2 = (\frac{d}{dt}\frac{1}{2}lcos(\theta))^2 + (\frac{d}{dt}(x - \frac{1}{2}lsin(\theta))^2$$
 $$v_p^2 = (-\frac{1}{2}lsin(\theta)\dot\theta)^2 + (\dot x - \frac{1}{2}lcos(\theta)\dot\theta)^2$$
 $$v_p^2 = \dot x^2 + \frac{1}{4}l^2\dot\theta^2 - \dot xlcos(\theta)\dot\theta$$
 
-kinetic energy of the rotional motion of the  pendulum applying lagrange equation
+kinetic energy of the rotional motion of the pendulum
 $$T_{Pendulum\,Rotational} = \frac{1}{2}I_p\dot\theta^2$$
-applying lagrange:
+therefore the Lagrangian is equals to
 $$L = T - V = \frac{1}{2}I_p\dot\theta^2+\frac{1}{2}m_c\dot x^2 + \frac{1}{2}m_p\dot x^2 + \frac{1}{8}m_pl^2\dot\theta^2 - \frac{1}{2}m_p l\dot xcos(\theta)\dot\theta - \frac{1}{2}m_pglcos(\theta) $$ 
 
-lagrange states that $$\frac{d}{dt}\frac{\partial L}{\partial \dot x} -\frac{\partial L}{\partial x} = Q_x$$
+lagrange equation states that $$\frac{d}{dt}\frac{\partial L}{\partial \dot x} -\frac{\partial L}{\partial x} = Q_x$$
 $$\frac{d}{dt}\frac{\partial L}{\partial \dot \theta} -\frac{\partial L}{\partial \theta} = Q_\theta$$
 
-lets calculate that shit:
+thus subtituting and simplifying 
 - for variabe $x$
 $$\frac{\partial L}{\partial x} = 0$$
 $$\frac{\partial L}{\partial \dot x}= (m_c+m_p)\dot x - \frac{1}{2}m_plcos(\theta)\dot\theta$$
 
 $$\frac{d}{dt}\frac{\partial L}{\partial \dot x}=(m_c+m_p)\ddot x- \frac{1}{2}m_pl[cos(\theta)\ddot\theta -sin(\theta)\dot\theta^2] $$
-$$Q_x=U_f(t)-b_c\dot x+D_c(t)$$
+$$Q_x=F(t)-b_c\dot x$$
 
-$$ (m_c+m_p)\ddot x- \frac{1}{2}m_pl[cos(\theta)\ddot\theta -sin(\theta)\dot\theta^2] =U_f(t)-b_c\dot x+D_c(t) \dots(1)$$
+$$(m_c+m_p)\ddot x- \frac{1}{2}m_pl[cos(\theta)\ddot\theta -sin(\theta)\dot\theta^2] =F(t)-b_c\dot x \dots(1)$$
 
 - for variable $\theta$ 
 $$\frac{\partial L}{\partial \theta} = \frac{1}{2}m_p[\dot xlsin(\theta)\dot\theta+lgsin(\theta)]$$
@@ -49,14 +44,30 @@ $$\frac{\partial L}{\partial \dot\theta} = I_p\dot\theta-\frac{1}{2}m_p\dot xlco
 
 $$\frac{d}{dt}\frac{\partial L}{\partial \dot\theta} = I_p\ddot\theta-\frac{1}{2}m_p\ddot xlcos(\theta)+\frac{1}{2}m_p\dot xlsin(\theta)\dot\theta+\frac{1}{4}m_pl^2\ddot\theta$$
 
-$$Q_\theta=-b_p\dot\theta+D_\theta(t)$$
-
-$$(I_p+\frac{m_pl^2}{4})\ddot\theta+b_p\dot\theta-\frac{1}{2}m_pl[\ddot x cos(\theta)+g sin(\theta)] =D_p(t) \dots(2)$$
+$$(I_p+\frac{m_pl^2}{4})\ddot\theta-\frac{1}{2}m_pl[\ddot x cos(\theta)+g sin(\theta)] = -b_p\dot\theta \dots(2)$$
 
 
-(1) and (2) are non-linear system, which mean that we need to linearize it or use non linear control which will not happen
+(1) and (2) are non-linear equations that describe the inverted pendulum on cart system, we would like to add the motor model to the system model as well.
 
-**State Space and Linearziation**
+The model of DC model is very well known
+
+$$J_m\ddot\theta_m+b_m\dot\theta_m = K_mi(t)$$
+
+$$L_m\dot i(t) +R_mi(t)=V-K_m\dot\theta$$
+
+$$K_mi(t)=\tau$$
+
+Knowing the gear ratio and the belt bulley radius, we can convert between motor torque and applied force to the cart $F(t)$
+$$F(t)=\frac{nK_mi(t)}{r}$$
+
+Therefore the final system model is
+$$(m_c+m_p)\ddot x- \frac{1}{2}m_pl[cos(\theta)\ddot\theta -sin(\theta)\dot\theta^2] =\frac{nK_mi(t)}{r}-b_c\dot x \dots(1)$$
+$$(I_p+\frac{m_pl^2}{4})\ddot\theta-\frac{1}{2}m_pl[\ddot x cos(\theta)+g sin(\theta)] = -b_p\dot\theta \dots(2)$$
+$$L_m\dot i(t) +R_mi(t)=V-K_m\dot\theta_m \dots(3)$$
+
+
+
+## Linearization
 
 let $$x= \begin{pmatrix} x_1 \newline x_2 \newline x_3 \newline x_4 \end{pmatrix} = \begin{pmatrix} x \newline \dot x \newline \theta \newline \dot \theta \end{pmatrix}$$
 be the state vector of the system. hence 
@@ -105,17 +116,13 @@ $$\dot x=Ax+Bu$$
 $$y=Cx$$
 
 
-Step 2: Designing controller using LQR with full state feedback
+## Controller Design 
 
 
 
 
 
-refrences:
+## Refrences
 - [JIBSAO (philarchive.org)](https://philarchive.org/archive/JIBSAO) 
-- [homework and exercises - Lagrangian of an inverted pendulum on a moving cart - Physics Stack Exchange](https://physics.stackexchange.com/questions/550033/lagrangian-of-an-inverted-pendulum-on-a-moving-cart) (kinetic energy of physical pendulum)
-
-
-potintial refrences:
-- [CTM Example: Inverted Pendulum Modeling (unisi.it)](https://www3.diism.unisi.it/~control/ctm/examples/pend/invpen.html) (general control and modeling)
+- [homework and exercises - Lagrangian of an inverted pendulum on a moving cart - Physics Stack Exchange](https://physics.stackexchange.com/questions/550033/lagrangian-of-an-inverted-pendulum-on-a-moving-cart) 
 - [Control Tutorials for MATLAB and Simulink - Home (umich.edu)](https://ctms.engin.umich.edu/CTMS/index.php?aux=Home)
